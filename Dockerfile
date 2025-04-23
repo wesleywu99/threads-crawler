@@ -2,7 +2,7 @@ FROM python:3.9-slim
 
 WORKDIR /app
 
-# Install dependencies for Playwright
+
 RUN apt-get update && apt-get install -y \
     wget \
     gnupg \
@@ -33,17 +33,19 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
+
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 
-RUN playwright install chromium --with-deps=false
+ENV PLAYWRIGHT_BROWSERS_PATH=/usr/local/ms-playwright
+RUN playwright install chromium
 
 
 COPY . .
 
-
 ENV PYTHONUNBUFFERED=1
 ENV PORT=10000
+
 
 CMD ["python", "app.py"]
