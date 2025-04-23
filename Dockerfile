@@ -38,11 +38,15 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 
-ENV PLAYWRIGHT_BROWSERS_PATH=/usr/local/ms-playwright
+RUN pip uninstall -y cssselect && pip install cssselect==1.1.0
+
+
+ENV PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
 RUN playwright install chromium
 
 
 COPY . .
+
 
 ENV PYTHONUNBUFFERED=1
 ENV PORT=10000
