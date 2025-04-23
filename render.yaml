@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: threads-api
+    env: docker
+    buildCommand: pip install -r requirements.txt
+    startCommand: python app.py
+    ports:
+      - port: 10000
+        httpRedirect: true
+    healthCheckPath: /api/health

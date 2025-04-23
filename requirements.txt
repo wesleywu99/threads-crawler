@@ -1,0 +1,4 @@
+flask==2.0.1
+playwright==1.27.1
+parsel==1.6.0
+# Add any missing dependencies here
