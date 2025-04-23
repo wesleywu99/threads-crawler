@@ -37,10 +37,6 @@ RUN apt-get update && apt-get install -y \
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-
-RUN pip uninstall -y cssselect && pip install cssselect==1.1.0
-
-
 ENV PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
 RUN playwright install chromium
 
@@ -50,6 +46,5 @@ COPY . .
 
 ENV PYTHONUNBUFFERED=1
 ENV PORT=10000
-
 
 CMD ["python", "app.py"]
