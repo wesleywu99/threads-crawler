@@ -8,6 +8,11 @@ RUN apt-get update && apt-get install -y \
     gnupg \
     ca-certificates \
     fonts-liberation \
+    fonts-noto \
+    fonts-noto-cjk \
+    fonts-unifont \
+    fonts-dejavu \
+    fonts-freefont-ttf \
     libasound2 \
     libatk-bridge2.0-0 \
     libatk1.0-0 \
@@ -24,28 +29,21 @@ RUN apt-get update && apt-get install -y \
     libxfixes3 \
     libxkbcommon0 \
     libxrandr2 \
-    xdg-utils \
-    libu2f-udev \
-    libvulkan1 \
     xvfb \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements and install Python dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Install Playwright browsers
-RUN playwright install chromium && playwright install-deps chromium
 
-# Copy the application code
+RUN playwright install chromium --with-deps=false
+
+
 COPY . .
 
-# Set environment variables
+
 ENV PYTHONUNBUFFERED=1
+ENV PORT=10000
 
-# Expose the port that Flask app runs on
-EXPOSE 10000
-
-# Start the application
 CMD ["python", "app.py"]
